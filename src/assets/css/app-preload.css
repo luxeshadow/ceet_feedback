@@ -1,0 +1,35 @@
+@import url('./app-style.css');
+
+#skeleton {
+      position: fixed;
+      inset: 0;
+      background-color: white;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    #skeleton img {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+
+    #skeleton .skeleton-bar-1 {
+      width: 256px;
+      height: 16px;
+      border-radius: 9999px;
+      margin-bottom: 0.5rem;
+    }
+
+    #skeleton .skeleton-bar-2 {
+      width: 192px;
+      height: 16px;
+      border-radius: 9999px;
+    }

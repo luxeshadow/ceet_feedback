@@ -1,0 +1,54 @@
+  :root {
+      --ceet-blue: #0d1b2a;
+      --ceet-blue-dark: #000814;
+      --ceet-yellow: #ffd60a;
+      --ceet-yellow-dark: #ffb703;
+      --ceet-gray: #f1f5f9;
+      --ceet-gray-dark: #64748b;
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+    }
+     *{
+      font-family: 'Inter', system-ui, sans-serif;
+      
+    }
+    *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input, textarea, .select-trigger {
+  max-width: 100%;
+  min-width: 0;
+}
+
+form {
+  width: 100%;
+}
+
+.grid-2-cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .grid-2-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.custom-select {
+  width: 100%;
+}
+
+.select-options {
+  width: 100%;
+}

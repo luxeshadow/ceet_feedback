@@ -1,0 +1,76 @@
+@import url('./app-style.css');
+#success-message {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      text-align: center;
+      max-width: 90%;
+      width: 400px;
+      min-height: 300px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media (max-width: 640px) {
+      #success-message {
+        width: 90%;
+        padding: 1.5rem;
+        min-height: 250px;
+      }
+    }
+
+    #success-message .icon-wrapper {
+      width: 80px;
+      height: 80px;
+      background-color: #d1fae5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    #success-message .icon-wrapper i {
+      color: #22c55e;
+      font-size: 2rem;
+    }
+
+    #success-message h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    #success-message p {
+      color: #4b5563;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    #success-message button {
+      background-color: var(--ceet-blue);
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.9rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #success-message button:hover {
+      background-color: var(--ceet-blue-dark);
+    }

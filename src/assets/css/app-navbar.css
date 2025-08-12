@@ -1,0 +1,218 @@
+@import url('./app-style.css');
+
+header {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.header-inner {
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 9999px;
+}
+
+.header-left span {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+nav {
+  display: none;
+  align-items: center;
+  gap: 32px;
+  height: 100%;
+}
+
+nav .nav-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+nav .nav-item a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  padding: 0 4px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+nav .nav-item a:hover {
+  color: #111827;
+}
+
+/* Nav indicator (version CSS pur) */
+nav .nav-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px; /* équivalent Tailwind h-0.5 */
+  background-color: var(--ceet-yellow);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+nav .nav-item:hover .nav-indicator {
+  animation: progress 0.3s forwards;
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Show nav on md+ */
+@media (min-width: 768px) {
+  nav {
+    display: flex;
+  }
+}
+
+/* Right side header */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-right button {
+  padding: 4px;
+  border-radius: 9999px;
+  color: #6b7280;
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  transition: color 0.2s ease;
+}
+
+.header-right button:hover {
+  color: #374151;
+}
+
+.user-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.user-menu-btn:focus {
+  outline: 2px solid var(--ceet-blue);
+  outline-offset: 2px;
+}
+
+.user-icon {
+  width: 32px;
+  height: 32px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4b5563;
+  font-size: 1rem;
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  display: none;
+}
+
+.user-chevron {
+  font-size: 0.625rem;
+  color: #6b7280;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .user-name,
+  .user-chevron {
+    display: inline;
+  }
+}
+
+/* Dropdown */
+#user-dropdown {
+  position: absolute;
+  right: -20px; /* décalage vers la droite */
+  margin-top: 200px;
+  width: 192px;
+  background-color: white;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 8px 0;
+  z-index: 50;
+}
+#user-dropdown a i {
+  margin-right: 6px;
+}
+
+button:focus,
+button:focus-visible,
+a:focus,
+a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+ a {
+  display: block;
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  color: #4b5563;
+  transition: background-color 0.15s ease;
+  text-decoration: none !important;
+  
+}
+/* Cacher par défaut */
+.mobile-only {
+  display: none;
+}
+
+/* Afficher uniquement sur écrans ≤ 767px */
+@media (max-width: 767px) {
+  .mobile-only {
+    display: inline-block; /* ou block selon besoin */
+  }
+}
+
