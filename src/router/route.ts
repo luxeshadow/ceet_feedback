@@ -6,7 +6,6 @@ const routes = [
     name: 'Home',
     component: () => import('@/presentation/views/app-home.vue'),
   },
-  
 ];
 
 const router = createRouter({

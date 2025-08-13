@@ -1,35 +1,59 @@
 @import url('./app-style.css');
 
 #skeleton {
-      position: fixed;
-      inset: 0;
-      background-color: white;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 1;
-      transition: opacity 0.3s ease;
-    }
+  position: fixed;
+  inset: 0;
+  background-color: white;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
 
-    #skeleton img {
-      width: 96px;
-      height: 96px;
-      object-fit: contain;
-      border-radius: 9999px;
-      margin-bottom: 1.5rem;
-    }
+#skeleton img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 9999px;
+  margin-bottom: 1.5rem;
+ 
+}
 
-    #skeleton .skeleton-bar-1 {
-      width: 256px;
-      height: 16px;
-      border-radius: 9999px;
-      margin-bottom: 0.5rem;
-    }
+/* Skeleton bars */
+#skeleton .skeleton-bar-1,
+#skeleton .skeleton-bar-2 {
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  background: linear-gradient(
+    90deg,
+    #e5e7eb 25%,
+    #f3f4f6 50%,
+    #e5e7eb 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
 
-    #skeleton .skeleton-bar-2 {
-      width: 192px;
-      height: 16px;
-      border-radius: 9999px;
-    }
+/* Largeur spécifique */
+#skeleton .skeleton-bar-1 { width: 256px; height: 16px; }
+#skeleton .skeleton-bar-2 { width: 192px; height: 16px; }
+
+/* Animation shimmer */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
+  #skeleton img {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 1rem;
+  }
+  #skeleton .skeleton-bar-1 { width: 200px; height: 14px; }
+  #skeleton .skeleton-bar-2 { width: 160px; height: 14px; }
+}

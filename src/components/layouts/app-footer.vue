@@ -3,8 +3,7 @@
     <div class="footer-container">
       <div class="footer-flex">
         <div class="footer-social">
-          <a href="https://www.facebook.com/ceettogofficiel/" aria-label="Facebook"
-            ><i class="fab fa-facebook-f"></i
+          <a href="https://www.facebook.com/ceettogofficiel/" aria-label="Facebook"><i class="fab fa-facebook-f"></i
           ></a>
           <a href="https://x.com/ceetofficiel" aria-label="Twitter"
             ><i class="fab fa-twitter"></i
@@ -14,7 +13,7 @@
             aria-label="LinkedIn"
             ><i class="fab fa-linkedin-in"></i
           ></a>
-          <a href="https://www.ceet.tg/tg/" aria-label="LinkedIn" style="margin-top: 1px">
+          <a href="https://www.ceet.tg/tg/" aria-label="LinkedIn" style="margin-top: 0px">
             <i class="fi fi-rr-site"></i>
           </a>
         </div>

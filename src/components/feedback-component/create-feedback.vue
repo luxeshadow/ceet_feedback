@@ -115,7 +115,5 @@
   </main>
 </template>
 <script setup>
-   
     import '@/assets/css/app-feedback.css';
-    
 </script>

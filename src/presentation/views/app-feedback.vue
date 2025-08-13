@@ -1,14 +1,11 @@
 <template>
-    <preLoad/>
     <navBar/>
-  
-    <creatFeedback/>
+    <listFeedback/>
     <Footer/>
 </template>
 
 <script setup>
     import navBar from '@/components/layouts/app-navbar.vue';
-    import creatFeedback from '@/components/feedback-component/create-feedback.vue'
+    import listFeedback from '@/components/feedback-component/list-feedback.vue'
     import Footer from '@/components/layouts/app-footer.vue';
-    import preLoad from '@/components/layouts/app-preload.vue';
 </script>
