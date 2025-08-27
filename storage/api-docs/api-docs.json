@@ -1,0 +1,1155 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "CeetFeedback API",
+        "description": "API documentation for CeetFeedback",
+        "contact": {
+            "email": "blezanatanael@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "V1"
+    },
+    "paths": {
+        "/api/v1/departements": {
+            "get": {
+                "tags": [
+                    "Departements"
+                ],
+                "summary": "Récupérer la liste des départements",
+                "operationId": "fb998789a307fcc64f30715c68292db3",
+                "responses": {
+                    "200": {
+                        "description": "Liste des départements récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DepartementSchema"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Departements"
+                ],
+                "summary": "Créer un nouveau département",
+                "operationId": "c771189d3d67cf3a86c54a554d377859",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DepartementSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Département créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Département créé avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DepartementSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide"
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            }
+        },
+        "/api/v1/departements/{id}": {
+            "put": {
+                "tags": [
+                    "Departements"
+                ],
+                "summary": "Mettre à jour un département",
+                "operationId": "a04511f4377651a6afabb731b7248498",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du département à mettre à jour",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DepartementSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Département mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Département mis à jour avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/DepartementSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Département non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Departements"
+                ],
+                "summary": "Supprimer un département (soft delete)",
+                "operationId": "4aa5c1cfee87e5bc025fc28b133b2052",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du département à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Département supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Département supprimé avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Département non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/departements/all": {
+            "get": {
+                "tags": [
+                    "Departements"
+                ],
+                "summary": "Récupérer tous les départements",
+                "operationId": "b8e07484ed93d58a3a2b22ace2c64f94",
+                "responses": {
+                    "200": {
+                        "description": "Liste complète des départements",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DepartementSchema"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            }
+        },
+        "/api/v1/modules": {
+            "get": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Récupérer la liste des modules",
+                "operationId": "462aac4e505b9bb732211a32a58a8de2",
+                "responses": {
+                    "200": {
+                        "description": "Liste des modules récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ModuleSchema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Créer un nouveau module",
+                "operationId": "30048d853b1b20bc9f2b5fa9f03bd6e0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModuleSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Module créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Module créé avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/ModuleSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/modules/{id}": {
+            "put": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Mettre à jour un module",
+                "operationId": "7ff19d6036dbf786c36454606cb6f8fe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModuleSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Module mis à jour avec succès"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Supprimer un module (soft delete)",
+                "operationId": "f6a42ade7b0f06a2f09a2935fda702f6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Module supprimé avec succès"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/modules/{module}/phases": {
+            "get": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Récupérer toutes les phases d'un module",
+                "operationId": "2c1bae68ca0648aa20a127248fc00786",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "description": "ID du module",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des phases du module avec count",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "module_id": {
+                                            "type": "integer"
+                                        },
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "phases": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PhaseSchema"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Attacher une phase à un module",
+                "operationId": "b198d03e894c01ce18603d73aa8a12dc",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "description": "ID du module",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "phase_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Phase attachée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Phase attachée au module avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Détacher une phase d'un module",
+                "operationId": "7e906ec8fa5e4c386b0367cf5f71157b",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "description": "ID du module",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "phase_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Phase détachée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Phase détachée du module avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/phases": {
+            "get": {
+                "tags": [
+                    "Phases"
+                ],
+                "summary": "Récupérer la liste des phases",
+                "operationId": "ad9c32ec85ef06c7a227b0fa5bfaf507",
+                "responses": {
+                    "200": {
+                        "description": "Liste des phases récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PhaseSchema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Phases"
+                ],
+                "summary": "Créer une nouvelle phase",
+                "operationId": "2ac6f56404c6e505894c1d5bbd163a38",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PhaseSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Phase créée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Phase créée avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PhaseSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/phases/{id}": {
+            "put": {
+                "tags": [
+                    "Phases"
+                ],
+                "summary": "Mettre à jour une phase",
+                "operationId": "ae9c9e9ea6fe56b7614021f319ffca5b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PhaseSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Phase mise à jour avec succès"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Phases"
+                ],
+                "summary": "Supprimer une phase (soft delete)",
+                "operationId": "18f54534c9f8c3a0dc79f50bc6b5b338",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Phase supprimée avec succès"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/type_feedbacks": {
+            "get": {
+                "tags": [
+                    "TypeFeedbacks"
+                ],
+                "summary": "Récupérer la liste des types de feedback",
+                "operationId": "4028ec46e484c785112029e916129719",
+                "responses": {
+                    "200": {
+                        "description": "Liste des types de feedback récupérée avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TypeFeedbackSchema"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "TypeFeedbacks"
+                ],
+                "summary": "Créer un nouveau type de feedback",
+                "operationId": "63a15d8fc34b08d8512648545f2e932a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TypeFeedbackSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Type de feedback créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Type de feedback créé avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TypeFeedbackSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide"
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            }
+        },
+        "/api/v1/type_feedbacks/{id}": {
+            "put": {
+                "tags": [
+                    "TypeFeedbacks"
+                ],
+                "summary": "Mettre à jour un type de feedback",
+                "operationId": "da763cf85824d426a15af822acb7cbb3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du type de feedback à mettre à jour",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TypeFeedbackSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Type de feedback mis à jour avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Type de feedback mis à jour avec succès"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/TypeFeedbackSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Type de feedback non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "TypeFeedbacks"
+                ],
+                "summary": "Supprimer un type de feedback (soft delete)",
+                "operationId": "24407253ee0b9a032740dff28307f9f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID du type de feedback à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Type de feedback supprimé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Type de feedback supprimé avec succès"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Type de feedback non trouvé"
+                    },
+                    "401": {
+                        "description": "Non authentifié"
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/type_feedbacks/all": {
+            "get": {
+                "tags": [
+                    "TypeFeedbacks"
+                ],
+                "summary": "Récupérer tous les types de feedback",
+                "operationId": "5dd5d6cdd617d2c6c668e63ba7a10e7f",
+                "responses": {
+                    "200": {
+                        "description": "Liste complète des types de feedback",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TypeFeedbackSchema"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur"
+                    }
+                }
+            }
+        },
+        "/api/v1/register": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Créer un nouvel utilisateur",
+                "operationId": "2b9439118bdeb18e4d0bc425d414fe6e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserSchema"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSchema"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Connexion d'un utilisateur",
+                "operationId": "b2629c0605441a4d4f393a56419bc654",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "StrongPass123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSchema"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants invalides"
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Déconnexion de l'utilisateur",
+                "operationId": "ea36ce7803be314dc7e272620079f305",
+                "responses": {
+                    "200": {
+                        "description": "Opération réussie"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DepartementSchema": {
+                "title": "Département",
+                "description": "Ressource département",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "informatique-abc123"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Informatique"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Département en charge de l'informatique."
+                    },
+                    "deletedept": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-18T12:34:56Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-18T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "ModuleSchema": {
+                "title": "Module",
+                "description": "Ressource module",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "maths-xyz123"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Mathématiques"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Module sur les bases des mathématiques."
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-18T12:34:56Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-18T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "PhaseSchema": {
+                "title": "Phase",
+                "description": "Ressource phase",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "phase-abc123"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Phase de conception"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Cette phase couvre la planification et la conception du projet."
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-18T12:34:56Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-18T12:34:56Z"
+                    }
+                },
+                "type": "object"
+            },
+            "TypeFeedbackSchema": {
+                "title": "TypeFeedback",
+                "description": "Ressource TypeFeedback",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "feedback-bug"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Bug Logiciel"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Feedback concernant un bug logiciel rencontré par l'utilisateur"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-26T08:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-08-26T08:00:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "UserSchema": {
+                "title": "Utilisateur",
+                "description": "Ressource utilisateur",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "rule": {
+                        "type": "string",
+                        "example": "user"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "active"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Departements",
+            "description": "Departements"
+        },
+        {
+            "name": "Modules",
+            "description": "Modules"
+        },
+        {
+            "name": "Phases",
+            "description": "Phases"
+        },
+        {
+            "name": "TypeFeedbacks",
+            "description": "TypeFeedbacks"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        }
+    ]
+}
