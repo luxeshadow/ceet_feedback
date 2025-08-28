@@ -36,11 +36,11 @@
           <!-- Département + Type de feedback -->
           <div class="grid-2-cols">
             <div>
-              <label>Département concerné*</label>
+              <label>Départements/ Services/ Fonctions concerné*</label>
               <div class="custom-select" tabindex="0" @click="toggleDepartment">
                 <div class="select-trigger" :class="{ open: departmentOpen }">
                   <span class="select-placeholder">
-                    {{ selectedDepartment ? selectedDepartment.name : "Sélectionnez un département*" }}
+                    {{ selectedDepartment ? selectedDepartment.name : "Sélectionnez un département, fonction ou service*" }}
                   </span>
                   <i class="fas fa-chevron-down" style="font-size: 0.75rem; color: #9ca3af"></i>
                 </div>

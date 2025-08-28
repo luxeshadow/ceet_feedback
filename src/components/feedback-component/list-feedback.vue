@@ -12,17 +12,17 @@
         <div class="filters">
           <div class="filter-grid">
             <div>
-              <div class="search-container">
+              <div class="searchs-container">
                 <input
                   type="text"
                   id="search"
                   placeholder="Rechercher feedback par groupe..."
                   autocomplete="off"
-                  class="search-input"
+                  class="searchs-input"
                   v-model="searchTerm"
                   aria-label="Rechercher feedback par groupe"
                 >
-                <span class="search-icon"><i class="fi fi-rr-search"></i></span>
+                <span class="searchs-icon"><i class="fi fi-rr-search"></i></span>
               </div>
             </div>
             <input
