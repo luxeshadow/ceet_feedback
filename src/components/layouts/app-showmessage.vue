@@ -12,7 +12,7 @@
     </p>
 
     <button @click="close">
-      <i class="fas fa-paper-plane"></i> Soumettre un nouveau feedback
+      <i class="fas fa-paper-plane"></i> Soumettre nouveau feedback ou Fermer
     </button>
   </div>
 </template>
