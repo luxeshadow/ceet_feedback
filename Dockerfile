@@ -39,8 +39,12 @@ RUN composer install --optimize-autoloader --no-dev \
 # Définir les permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Ajouter un script d'entrée pour lancer les migrations au démarrage
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Exposer le port 10000 pour Render
 EXPOSE 10000
 
-# Démarrer Apache
-CMD ["apache2-foreground"]
+# Démarrer via l'entrypoint (migrations + Apache)
+CMD ["docker-entrypoint.sh"]
