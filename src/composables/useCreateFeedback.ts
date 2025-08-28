@@ -44,12 +44,18 @@ export function useCreateFeedback() {
         groupId = response?.data?.feedback_group_id ?? null;
       }
 
-      const appInstance = createApp(ShowMessage, {
-        feedbackGroupId: groupId,
-        onClose: () => {
+      // On crée l'instance en deux étapes pour éviter les closures problématiques
+      let appInstance: ReturnType<typeof createApp> | null = null;
+      const onClose = () => {
+        if (appInstance) {
           appInstance.unmount();
           document.body.removeChild(messageContainer);
-        },
+        }
+      };
+
+      appInstance = createApp(ShowMessage, {
+        feedbackGroupId: groupId,
+        onClose,
       });
 
       appInstance.mount(messageContainer);
@@ -58,7 +64,8 @@ export function useCreateFeedback() {
       return response;
     } catch (err: any) {
       console.error(err);
-      error.value = err.response?.data?.message || err.message || "Erreur lors de l'envoi du feedback";
+      error.value =
+        err.response?.data?.message || err.message || "Erreur lors de l'envoi du feedback";
       showToast(error.value ?? "Erreur lors de l'envoi du feedback", { type: "error" });
       return null;
     } finally {
