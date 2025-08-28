@@ -1,35 +1,21 @@
 @import url('./app-style.css');
 #success-message {
-      display: none;
-      position: fixed;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%);
       background: white;
       padding: 2rem;
       border-radius: 1rem;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       z-index: 1000;
       text-align: center;
-      max-width: 90%;
-      width: 400px;
-      min-height: 300px;
-
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      
     }
 
-    @media (max-width: 640px) {
-      #success-message {
-        width: 90%;
-        padding: 1.5rem;
-        min-height: 250px;
-      }
-    }
-
-    #success-message .icon-wrapper {
+ .icon-wrapper {
       width: 80px;
       height: 80px;
       background-color: #d1fae5;
@@ -40,7 +26,7 @@
       margin-bottom: 1.5rem;
     }
 
-    #success-message .icon-wrapper i {
+     .icon-wrapper i {
       color: #22c55e;
       font-size: 2rem;
     }
@@ -74,3 +60,38 @@
     #success-message button:hover {
       background-color: var(--ceet-blue-dark);
     }
+
+    @media (max-width: 480px) {
+  #success-message {
+    width: 300px;
+    padding: 1rem;
+  }
+
+  .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.5rem;
+  }
+
+  .icon-wrapper i {
+    font-size: 1.2rem;
+  }
+.p{
+  margin-bottom: 0.5rem !important;
+}
+  #success-message h3 {
+    font-size: 1rem;
+   
+  }
+
+  #success-message p {
+    font-size: 0.80rem;
+  }
+
+  #success-message button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.65rem 1rem;
+    font-size: 0.80rem;
+  }
+}

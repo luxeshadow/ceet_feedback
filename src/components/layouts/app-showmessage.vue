@@ -4,10 +4,7 @@
       <i class="fas fa-check"></i>
     </div>
     <h3>Merci pour votre feedback !</h3>
-    <p>Votre message a été envoyé avec succès.</p>
-    
-    <!-- Affichage du code de suivi -->
-    <p v-if="feedbackGroupId">
+    <p class="p" v-if="feedbackGroupId">
       Votre code de suivi : {{ feedbackGroupId }}
     </p>
 
@@ -16,8 +13,8 @@
     </button>
   </div>
 </template>
-
 <script setup lang="ts">
+import "@/assets/css/app-success-modal.css";
 import { defineProps } from 'vue';
 
 const props = defineProps<{
