@@ -12,12 +12,15 @@
     "canvas-confetti": "^1.9.3",
     "core-js": "^3.8.3",
     "pinia": "^3.0.3",
+    "toastify-js": "^1.12.0",
+    "toastr": "^2.1.4",
     "vue": "^3.2.13",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@types/toastify-js": "^1.12.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",

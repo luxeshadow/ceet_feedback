@@ -1,0 +1,197 @@
+<template>
+  <div class="container-man">
+    <h1>Liste des Phases</h1>
+
+    <div class="card">
+      <div class="table-wrapper">
+        <!-- Loader liste -->
+        <div v-if="listLoading" class="loader-message">
+          <i class="fas fa-spinner fa-spin mr-2"></i> Chargement des phases...
+        </div>
+
+        <!-- Table -->
+        <table v-else class="table-man">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="phase in phases" :key="phase.id">
+              <td>{{ phase.name }}</td>
+              <td>{{ phase.description }}</td>
+              <td class="actions">
+                <button class="btn-edit" @click="openUpdateModal(phase)">
+                  <i class="fas fa-edit"></i> Éditer
+                </button>
+                <button
+                  class="btn-delete"
+                  @click="handleDelete(phase.id, fetchPhases)"
+                  :disabled="deletingIds.has(phase.id)"
+                >
+                  <i v-if="deletingIds.has(phase.id)" class="fas fa-spinner fa-spin mr-2"></i>
+                  <i v-else class="fas fa-trash"></i>
+                  {{ confirmingIds.has(phase.id) ? 'Confirmer' : 'Supprimer' }}
+                </button>
+              </td>
+            </tr>
+            <tr v-if="!phases.length">
+              <td colspan="3" class="text-center">Aucune phase trouvée</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div v-if="lastPage > 1" class="pagination mt-4">
+        <button :disabled="currentPage === 1 || listLoading" @click="fetchPhases(currentPage - 1)">‹</button>
+        <button
+          v-for="page in pagesToShow"
+          :key="page"
+          :class="{ active: page === currentPage, dots: page === '...' }"
+          :disabled="page === '...' || listLoading"
+          @click="page !== '...' && fetchPhases(page)"
+        >
+          {{ page }}
+        </button>
+        <button :disabled="currentPage === lastPage || listLoading" @click="fetchPhases(currentPage + 1)">›</button>
+      </div>
+
+      <!-- Ajouter une phase -->
+      <div class="form-actions mt-4">
+        <button @click="openCreateModal">
+          <i class="fas fa-plus"></i> Ajouter une Phase
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal Création / Mise à jour -->
+    <div v-if="showModal" class="modal-backdrop">
+      <div class="modal-card">
+        <h2>{{ isEditing ? 'Modifier la Phase' : 'Créer une Nouvelle Phase' }}</h2>
+        <form @submit="onSubmit">
+          <div class="form-group">
+            <label for="name">Nom de la Phase*</label>
+            <input
+              type="text"
+              id="name"
+              v-model="form.name"
+              placeholder="Ex: Phase de planification"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea
+              id="description"
+              v-model="form.description"
+              placeholder="Description de la phase..."
+              rows="4"
+            ></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" :disabled="createLoading || updateLoading">
+              <i v-if="createLoading || updateLoading" class="fas fa-spinner fa-spin mr-2"></i>
+              <i v-else class="fas fa-save mr-2"></i>
+              {{ isEditing
+                ? updateLoading ? 'Mise à jour...' : 'Mettre à jour'
+                : createLoading ? 'Création...' : 'Ajouter Phase' }}
+            </button>
+          </div>
+        </form>
+        <button class="modal-close" @click="closeModal">×</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import '@/assets/css/app-managment.css';
+import { useCreatePhase } from '@/composables/useCreatePhase';
+import { useUpdatePhase } from '@/composables/useUpdatePhase';
+import { useDeletePhase } from '@/composables/useDeletePhase';
+import { useListPhases } from '@/composables/useListPhase';
+import { Phase } from '@/domain/models/Phase';
+
+// Création et mise à jour
+const { create, loading: createLoading } = useCreatePhase();
+const { update, loading: updateLoading } = useUpdatePhase();
+
+// Liste phases
+const { phases, currentPage, lastPage, perPage, total, fetchPhases, loading: listLoading } = useListPhases();
+// Suppression
+const { handleDelete, confirmingIds, deletingIds } = useDeletePhase(phases, currentPage, perPage, total, lastPage);
+
+const showModal = ref(false);
+const isEditing = ref(false);
+const selectedPhaseId = ref<number | null>(null);
+
+const form = ref<Partial<Phase>>({ name: '', description: '' });
+
+// Modals
+const openCreateModal = () => {
+  isEditing.value = false;
+  form.value = { name: '', description: '' };
+  showModal.value = true;
+};
+
+const openUpdateModal = (phase: Phase) => {
+  isEditing.value = true;
+  selectedPhaseId.value = phase.id || null;
+  form.value = { ...phase };
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  form.value = { name: '', description: '' };
+  selectedPhaseId.value = null;
+};
+
+// Submit
+const onSubmit = async (e: Event) => {
+  e.preventDefault();
+
+  if (isEditing.value && selectedPhaseId.value) {
+    const updatedPhase = await update(selectedPhaseId.value, form.value);
+    if (updatedPhase) {
+      const index = phases.value.findIndex(p => p.id === updatedPhase.id);
+      if (index !== -1) phases.value.splice(index, 1, updatedPhase);
+      closeModal();
+    }
+  } else {
+    const newPhase = await create(form.value);
+    if (newPhase && newPhase.data) {
+      phases.value.push(newPhase.data);
+      total.value += 1;
+      lastPage.value = Math.ceil(total.value / perPage.value);
+      closeModal();
+    }
+  }
+
+  (e.target as HTMLFormElement).reset();
+};
+
+// Pagination type 1 ... 2 3 ... lastPage
+const pagesToShow = computed<(number | string)[]>(() => {
+  const pages: (number | string)[] = [];
+  if (lastPage.value <= 7) {
+    for (let i = 1; i <= lastPage.value; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if (currentPage.value > 4) pages.push('...');
+    const start = Math.max(2, currentPage.value - 1);
+    const end = Math.min(lastPage.value - 1, currentPage.value + 1);
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (currentPage.value < lastPage.value - 3) pages.push('...');
+    pages.push(lastPage.value);
+  }
+  return pages;
+});
+
+fetchPhases(1);
+</script>

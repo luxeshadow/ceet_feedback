@@ -1,0 +1,10 @@
+export interface TypeFeedback {
+  id?: number;      
+  name: string;      
+  description?: string; 
+  created_at?: string; 
+  updated_at?: string;  
+}
+export interface CreateTypeFeedbackResponse {
+  data: TypeFeedback;   
+}

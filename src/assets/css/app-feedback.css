@@ -1,18 +1,18 @@
 @import url('./app-style.css');
   /* Main */
-    main {
+   .main-feed {
       flex-grow: 1;
       padding-top: 32px;
       padding-bottom: 32px;
       background-color: transparent;
     }
 
-    .main-container {
+    .main-container-feed {
       max-width: 1200px;
       margin-left: auto;
       margin-right: auto;
-      padding-left: 16px;
-      padding-right: 16px;
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     /* Feedback card */
@@ -75,7 +75,7 @@
     }
 
     /* Form */
-    form {
+    .form-feed {
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -135,6 +135,7 @@
     .custom-select {
       position: relative;
       user-select: none;
+   
     }
 
     .select-trigger {
@@ -147,6 +148,7 @@
 
     .select-trigger.open {
       color: #111827;
+      
     }
 
     .select-options {
@@ -168,7 +170,9 @@
     .select-options.open {
       display: block;
     }
-
+.select-placeholder{
+  color: var(--ceet-blue);
+}
     .select-options li {
       padding: 12px 16px;
       cursor: pointer;
@@ -242,7 +246,6 @@
       gap: 12px;
       padding-top: 16px;
     }
-
     .btn {
       padding: 12px 24px;
       font-size: 0.875rem;
@@ -274,3 +277,74 @@
     .btn-submit:hover {
       background-color: var(--ceet-blue-dark);
     }
+
+     /* ... (les styles existants restent les mêmes) ... */
+
+  /* Nouveaux styles corrigés pour les phases */
+  /* Container phases */
+.phases-container {
+  margin-top: 8px;
+}
+
+.phases-scroll-wrapper {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  padding-bottom: 4px;
+}
+.phases-scroll-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.phases-options {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+}
+
+/* Style pill */
+.phase-option {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  border-radius: 9999px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background-color: white;
+  position: relative;
+}
+
+/* Hover */
+.phase-option:hover {
+  border-color: var(--ceet-blue);
+  background-color: #f3f4f6;
+}
+
+/* Checkbox cachée */
+.phase-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Style texte */
+.phase-label {
+  font-size: 0.875rem;
+  color: #374151;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  pointer-events: none;
+}
+
+/* Quand sélectionné */
+.phase-option.selected {
+  border-color: var(--ceet-blue);
+  background-color: rgba(13, 27, 42, 0.05);
+}
+.phase-option.selected .phase-label {
+  color: var(--ceet-blue);
+  font-weight: 500;
+}
+

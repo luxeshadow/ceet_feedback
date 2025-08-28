@@ -11,7 +11,5 @@
   </div>
 </template>
 <script setup>
-   
     import '@/assets/css/app-success-modal.css';
-    
 </script>

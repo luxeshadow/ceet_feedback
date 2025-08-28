@@ -1,6 +1,6 @@
 /* login */
 
-main {
+.main-log {
   flex-grow: 1;
   display: flex;
   justify-content: center;
@@ -45,10 +45,6 @@ main {
 
 form {
   padding: 24px;
-}
-
-form > div {
-  margin-bottom: 20px;
 }
 
 label {
@@ -144,3 +140,8 @@ button[type="submit"] i {
 .toggle-eye:hover {
   opacity: 1;
 }
+/* Ajoute un espacement entre chaque champ */
+.login-form > div {
+  margin-bottom: 16px;
+}
+

@@ -1,0 +1,309 @@
+/* Table wrapper for horizontal scroll */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+}
+
+
+.table-man {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Ensures table doesn't shrink too much */
+}
+
+.table-man th,
+.table-man td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb; /* gray-200 */
+  font-size: 0.95rem;
+}
+
+.table-man th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap; /* Prevent header text wrapping */
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-man td {
+  white-space: normal; /* Allow text wrapping in cells */
+  word-break: break-word; /* Break long words */
+}
+
+.table-man .no-data {
+  text-align: center;
+  color: #6b7280; /* gray-500 */
+  padding: 20px;
+}
+
+.table-man tr:hover {
+  background-color: #f3f4f6;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn-edit {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-edit:hover {
+  background-color: #bae6fd;
+}
+
+.btn-delete {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.btn-delete:hover {
+  background-color: #fecaca;
+}
+
+/* Form styles */
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0056b3; /* --ceet-blue */
+  box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.3);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  background-color: #0d1b2a; /* --ceet-blue */
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.form-actions button:hover {
+  background-color: #0d1b2a; /* --ceet-blue-dark */
+}
+
+.form-actions button:disabled {
+  background-color: #0d1b2a;
+  cursor: not-allowed;
+}
+
+.form-actions button i {
+  margin-right: 8px;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #374151;
+}
+
+.modal-close:hover {
+  color: #111827;
+}
+ .container-man h1 {
+     margin-bottom: 5px;
+     color: #0d1b2a;
+    
+  }
+
+/* Mobile */
+ @media (max-width: 640px) {
+          
+           .container-man h1 {
+     margin-bottom: 5px;
+     color: #0d1b2a;
+    
+  }
+          
+            .btn-edit,
+            .btn-delete {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+
+            .form-group {
+                margin-bottom: 14px;
+            }
+            
+            .form-group label {
+                font-size: 0.85rem;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                border-radius: 6px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+                justify-content: stretch;
+                margin-top: 20px;
+            }
+
+            .form-actions button {
+                width: 100%;
+                justify-content: center;
+                font-size: 0.95rem;
+                padding: 12px;
+            }
+
+            .form-actions button i {
+                margin-right: 6px;
+            }
+
+            .modal-card {
+                margin: 0 16px;
+                padding: 20px;
+            }
+            
+            .modal-card h2 {
+                font-size: 1.2rem;
+                padding-right: 24px;
+            }
+        }
+        
+    .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+.pagination button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ddd;
+  background-color: #f1f5f9;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 36px;
+  text-align: center;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.pagination button:hover:not(:disabled) {
+  background-color: #000814;
+  color: white;
+  border-color: #000814;
+}
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.pagination button.active {
+  background-color: #0d1b2a;
+  color: white;
+  border-color: #000814;
+}
+.pagination button.dots {
+  cursor: default;
+  background-color: transparent;
+  border: none;
+  color: #999;
+}
+@media (max-width: 600px) {
+  .pagination button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    min-width: 28px;
+  }
+}
+.loader-message {
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #555;
+}

@@ -13,7 +13,7 @@
             aria-label="LinkedIn"
             ><i class="fab fa-linkedin-in"></i
           ></a>
-          <a href="https://www.ceet.tg/tg/" aria-label="LinkedIn" style="margin-top: 0px">
+          <a href="https://www.ceet.tg/tg/" aria-label="LinkedIn" style="margin-top: 2px">
             <i class="fi fi-rr-site"></i>
           </a>
         </div>
