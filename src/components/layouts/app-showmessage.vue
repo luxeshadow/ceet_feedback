@@ -1,15 +1,31 @@
 <template>
-   <div id="success-message">
+  <div id="success-message">
     <div class="icon-wrapper">
       <i class="fas fa-check"></i>
     </div>
     <h3>Merci pour votre feedback !</h3>
     <p>Votre message a été envoyé avec succès.</p>
-    <button>
+    
+    <!-- Affichage du code de suivi -->
+    <p v-if="feedbackGroupId">
+      Votre code de suivi : {{ feedbackGroupId }}
+    </p>
+
+    <button @click="close">
       <i class="fas fa-paper-plane"></i> Soumettre un nouveau feedback
     </button>
   </div>
 </template>
-<script setup>
-    import '@/assets/css/app-success-modal.css';
+
+<script setup lang="ts">
+import { defineProps } from 'vue';
+
+const props = defineProps<{
+  feedbackGroupId?: string;
+  onClose?: () => void; // fonction de fermeture
+}>();
+
+const close = () => {
+  if (props.onClose) props.onClose();
+};
 </script>
