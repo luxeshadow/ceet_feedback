@@ -1,4 +1,3 @@
-// src/infrastructure/apiClient.ts
 import axios from 'axios';
 import { API_BASE_URL } from '../shared/constants';
 import { useUserStore } from '@/presentation/stores/userStore';
@@ -7,6 +6,7 @@ const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': 'true', // Ajout pour contourner la page d'avertissement ngrok
   },
 });
 
