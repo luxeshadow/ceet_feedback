@@ -1,7 +1,7 @@
 # Base PHP avec Apache
 FROM php:8.3-apache
 
-# Installer les dépendances de Laravel + PostgreSQL
+# Installer dépendances Laravel + PostgreSQL
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
@@ -16,35 +16,31 @@ RUN apt-get update && apt-get install -y \
 # Installer Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copier le code du projet
+# Copier code
 COPY . /var/www/html
 
-# Définir le dossier de travail
+# Définir dossier de travail
 WORKDIR /var/www/html
 
-# Définir le DocumentRoot d'Apache sur le dossier public de Laravel
+# DocumentRoot Apache
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
-# Mettre à jour la config d'Apache
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Installer les dépendances Laravel et optimiser
-RUN composer install --optimize-autoloader --no-dev \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache \
-    && chmod -R 775 storage bootstrap/cache
+# Installer dépendances Laravel
+RUN composer install --no-dev --optimize-autoloader \
+    && chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
 
-# Définir les permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Ajouter ServerName pour enlever le warning Apache
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Ajouter un script d'entrée pour lancer les migrations au démarrage
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Exposer port 80
+EXPOSE 80
 
-# Exposer le port 10000 pour Render
-EXPOSE 10000
-
-# Démarrer via l'entrypoint (migrations + Apache)
-CMD ["docker-entrypoint.sh"]
+# Démarrer Apache
+CMD php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear && \
+    apache2-foreground
