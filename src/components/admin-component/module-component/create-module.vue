@@ -114,7 +114,7 @@ import '@/assets/css/app-managment.css';
 import { useCreateModule } from '@/composables/useCreateModule';
 import { useUpdateModule } from '@/composables/useUpdateModule';
 import { useDeleteModule } from '@/composables/useDeleteModule';
-import { useListModules } from '@/composables/useListModule';
+import { useListModules } from '@/composables/useListModules';
 import { Module } from '@/domain/models/Module';
 
 // Création et mise à jour

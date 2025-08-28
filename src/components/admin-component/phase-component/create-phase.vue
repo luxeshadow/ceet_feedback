@@ -114,7 +114,7 @@ import '@/assets/css/app-managment.css';
 import { useCreatePhase } from '@/composables/useCreatePhase';
 import { useUpdatePhase } from '@/composables/useUpdatePhase';
 import { useDeletePhase } from '@/composables/useDeletePhase';
-import { useListPhases } from '@/composables/useListPhase';
+import { useListPhases } from '@/composables/useListPhases';
 import { Phase } from '@/domain/models/Phase';
 
 // Création et mise à jour

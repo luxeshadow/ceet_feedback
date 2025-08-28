@@ -113,7 +113,7 @@ import { ref, computed} from 'vue';
 import '@/assets/css/app-managment.css';
 import { useCreateDepartement } from '@/composables/useCreateDepartement';
 import { useUpdateDepartement } from '@/composables/useUpdateDepartement';
-import { useListDepartements } from '@/composables/useListDepartement';
+import { useListDepartements } from '@/composables/useListDepartements';
 import { useDeleteDepartement } from '@/composables/useDeleteDepartement';
 import type { Departement } from '@/domain/models/Departement';
 

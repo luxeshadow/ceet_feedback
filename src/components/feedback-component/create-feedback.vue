@@ -175,11 +175,11 @@
 <script setup lang="ts">
 import "@/assets/css/app-feedback.css";
 import { ref, onMounted } from "vue";
-import { useListDepartements } from "@/composables/useListDepartement";
-import { useListTypeFeedbacks } from "@/composables/useListTypeFeedback";
+import { useListDepartements } from "@/composables/useListDepartements";
+import { useListTypeFeedbacks } from "@/composables/useListTypeFeedbacks";
 import { useCreateFeedback } from "@/composables/useCreateFeedback";
-import { useListModules } from "@/composables/useListModule";
-import { useListPhases } from "@/composables/useListPhase";
+import { useListModules } from "@/composables/useListModules";
+import { useListPhases } from "@/composables/useListPhases";
 import { useUserStore } from "@/presentation/stores/userStore";
 
 // --- Store utilisateur ---

@@ -114,7 +114,7 @@ import '@/assets/css/app-managment.css';
 import { useCreateTypeFeedback } from '@/composables/useCreateTypeFeedback';
 import { useUpdateTypeFeedback } from '@/composables/useUpdateTypeFeedback';
 import { useDeleteTypeFeedback } from '@/composables/useDeleteTypeFeedback';
-import { useListTypeFeedbacks } from '@/composables/useListTypeFeedback';
+import { useListTypeFeedbacks } from '@/composables/useListTypeFeedbacks';
 import { TypeFeedback } from '@/domain/models/TypeFeedback';
 
 // Création et mise à jour
