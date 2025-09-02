@@ -9,9 +9,18 @@ export const feedbackService = {
 
     Object.entries(payload).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        if (Array.isArray(value)) {
+        // Si c'est un tableau de fichiers
+        if (key === 'files' && Array.isArray(value)) {
+          value.forEach((file, index) => {
+            formData.append('files[]', file as File); // FormData accepte File
+          });
+        }
+        // Si c'est un tableau simple (ex: phases)
+        else if (Array.isArray(value)) {
           value.forEach(v => formData.append(`${key}[]`, v as any));
-        } else {
+        }
+        // Valeurs simples
+        else {
           formData.append(key, value as any);
         }
       }
@@ -24,14 +33,12 @@ export const feedbackService = {
     return data;
   },
 
-  // Liste paginée des feedbacks de l'utilisateur
   listMyFeedbacks(page: number = 1, perPage: number = 10): Promise<FeedbackListResponse> {
     return apiClient
       .get(`/feedbacks?per_page=${perPage}&page=${page}`)
       .then(({ data }) => data);
   },
 
-  // Récupérer tous les feedbacks d'un groupe
   getByGroupId(groupId: string): Promise<FeedbackListResponse> {
     return apiClient.get(`/feedbacks/group/${groupId}`).then(({ data }) => data);
   },

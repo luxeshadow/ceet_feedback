@@ -82,12 +82,13 @@
       gap: 24px;
     }
 
+    
     .grid-2-cols {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      padding-bottom: 10px;
-    }
+  display: grid;
+  grid-template-columns: 1fr; /* une seule colonne par défaut */
+  gap: 24px;
+  padding-bottom: 10px;
+}
 
     @media (min-width: 768px) {
       .grid-2-cols {

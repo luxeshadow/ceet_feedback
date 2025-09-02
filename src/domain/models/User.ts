@@ -4,9 +4,11 @@ export interface User {
   email: string;
   password: string;
   confirmPassword?: string;
+  departement_id: number;   
   created_at?: string;
   updated_at?: string;
 }
+
 
 export interface CreateUserResponse {
   user: User;

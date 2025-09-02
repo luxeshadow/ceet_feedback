@@ -46,21 +46,25 @@ export function useListPhases() {
   // ==============================
   // Phases d'un module spécifique
   // ==============================
-  const fetchModulePhases = async (moduleId: number) => {
-    loading.value = true;
-    error.value = null;
+ const fetchModulePhases = async (moduleId: number) => {
+  loading.value = true;
+  error.value = null;
 
-    try {
-      const response = await moduleService.getPhases(moduleId);
-      modulePhases.value = response.phases;
-      modulePhasesCount.value = response.count;
-    } catch (err: any) {
-      error.value = String(err?.message || 'Erreur lors du chargement des phases du module');
-      showToast(error.value, { type: 'error' });
-    } finally {
-      loading.value = false;
-    }
-  };
+  try {
+    const response = await moduleService.getPhases(moduleId);
+
+    // Phases assignées uniquement
+    modulePhases.value = response.assigned.phases;
+    modulePhasesCount.value = response.assigned.count;
+
+  } catch (err: any) {
+    error.value = String(err?.message || 'Erreur lors du chargement des phases du module');
+    showToast(error.value, { type: 'error' });
+  } finally {
+    loading.value = false;
+  }
+};
+
 
   return {
     // phases globales

@@ -1,5 +1,3 @@
-import { Feedback } from '@/domain/models/Feedback';
-
 export function validateFeedback(data: {
   description?: string;
   selectedPhases?: number[];
@@ -7,7 +5,9 @@ export function validateFeedback(data: {
   selectedTypeFeedback?: { id: number; name: string } | null;
   selectedModule?: { id: number; name: string } | null;
   file?: File | null;
+  departmentId?: number; // Ajout d'un champ optionnel pour gérer le département depuis userStore
 }) {
+  // Validation de la description
   if (!data.description || data.description.trim() === '') {
     throw new Error('La description du feedback est obligatoire.');
   }
@@ -16,22 +16,27 @@ export function validateFeedback(data: {
     throw new Error('La description ne doit pas dépasser 1000 caractères.');
   }
 
-  if (!data.selectedDepartment) {
+  // Validation du département
+  if (!data.departmentId && (!data.selectedDepartment || !data.selectedDepartment.id)) {
     throw new Error('Veuillez sélectionner un département.');
   }
 
-  if (!data.selectedTypeFeedback) {
+  // Validation du type de feedback
+  if (!data.selectedTypeFeedback || !data.selectedTypeFeedback.id) {
     throw new Error('Veuillez sélectionner un type de feedback.');
   }
 
-  if (!data.selectedModule) {
+  // Validation du module
+  if (!data.selectedModule || !data.selectedModule.id) {
     throw new Error('Veuillez sélectionner un module.');
   }
 
+  // Validation des phases
   if (!data.selectedPhases || data.selectedPhases.length === 0) {
     throw new Error('Veuillez sélectionner au moins une phase.');
   }
 
+  // Validation du fichier (si présent)
   if (data.file) {
     const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
     if (!allowedTypes.includes(data.file.type)) {

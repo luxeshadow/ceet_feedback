@@ -52,7 +52,7 @@ const onSubmit = async (e: Event) => {
             id="first_name"
             v-model="form.email"
             placeholder="votre nom"
-            required
+            required autocomplete="off"
           />
         </div>
         <div class="password-field">
@@ -62,7 +62,7 @@ const onSubmit = async (e: Event) => {
             id="password"
             v-model="form.password"
             placeholder="••••••••"
-            required
+            required autocomplete="off"
           />
           <img
             :src="showPassword ? eyeOpen : eyeClose"

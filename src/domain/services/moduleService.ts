@@ -1,6 +1,5 @@
-// application/services/moduleService.ts
 import { moduleApi, PaginatedResponse } from '@/infrastructure/api/moduleApi';
-import { Module, CreateModuleResponse } from '@/domain/models/Module';
+import { Module, CreateModuleResponse, ModulesByDepartementResponse } from '@/domain/models/Module';
 
 export const moduleService = {
   createModule(module: Partial<Module>): Promise<CreateModuleResponse> {
@@ -37,5 +36,13 @@ export const moduleService = {
 
   detachPhase(moduleId: number, phaseId: number) {
     return moduleApi.detachPhase(moduleId, phaseId);
+  },
+
+  // =============================
+  // Modules par département
+  // =============================
+
+  getModulesByDepartement(departementId: number): Promise<ModulesByDepartementResponse> {
+    return moduleApi.getByDepartement(departementId);
   },
 };

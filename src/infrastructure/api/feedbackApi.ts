@@ -3,18 +3,31 @@ import apiClient from '@/infrastructure/apiClient';
 import { Feedback, CreateFeedbackResponse, FeedbackListResponse } from '@/domain/models/Feedback';
 
 export const feedbackApi = {
- 
+
   async create(feedback: Partial<Feedback>): Promise<CreateFeedbackResponse> {
     console.log("Body envoyé au backend :", feedback);
 
     const formData = new FormData();
+
     Object.entries(feedback).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
+        // Gestion des tableaux
         if (Array.isArray(value)) {
-    
-          value.forEach(v => formData.append(`${key}[]`, v as any));
+          value.forEach(v => {
+            if (v instanceof File) {
+              // si c'est un fichier, on l'ajoute
+              formData.append(`${key}[]`, v);
+            } else {
+              formData.append(`${key}[]`, v as any);
+            }
+          });
         } else {
-          formData.append(key, value as any);
+          // si c'est un fichier unique
+          if (value instanceof File) {
+            formData.append('files[]', value);
+          } else {
+            formData.append(key, value as any);
+          }
         }
       }
     });

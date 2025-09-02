@@ -43,6 +43,13 @@ export const moduleApi = {
     await apiClient.delete(`/modules/${id}`);
   },
 
+  // Récupérer les modules par département
+  async getByDepartement(departementId: number): Promise<{ data: Module[]; count: number; departement_id: number }> {
+  const { data } = await apiClient.get(`/modules/departement/${departementId}`);
+  return data;
+  },
+
+
   // =============================
   // Gestion des phases d'un module
   // =============================

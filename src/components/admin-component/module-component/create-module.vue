@@ -72,6 +72,23 @@
       <div class="modal-card">
         <h2>{{ isEditing ? 'Modifier le Module' : 'Créer un Nouveau Module' }}</h2>
         <form @submit="onSubmit">
+
+       <div class="form-group">
+  <label for="departement">Département*</label>
+  <select id="departement" v-model="form.departement_id" required :disabled="deptLoading">
+    <option value="" disabled selected hidden>-- Sélectionnez un département --</option>
+    <option
+      v-for="dept in allDepartements"
+      :key="dept.id"
+      :value="dept.id"
+    >
+      {{ dept.name }}
+    </option>
+  </select>
+  <i v-if="deptLoading" class="fas fa-spinner fa-spin ml-2"></i>
+</div>
+
+
           <div class="form-group">
             <label for="name">Nom du Module*</label>
             <input
@@ -116,6 +133,8 @@ import { useUpdateModule } from '@/composables/useUpdateModule';
 import { useDeleteModule } from '@/composables/useDeleteModule';
 import { useListModules } from '@/composables/useListModules';
 import { Module } from '@/domain/models/Module';
+import { useListDepartements } from '@/composables/useListDepartements';
+
 
 // Création et mise à jour
 const { create, loading: createLoading } = useCreateModule();
@@ -125,7 +144,9 @@ const { update, loading: updateLoading } = useUpdateModule();
 const { modules, currentPage, lastPage, perPage, total, fetchModules, loading: listLoading } = useListModules();
 // Suppression
 const { handleDelete, confirmingIds, deletingIds } = useDeleteModule(modules, currentPage, perPage, total, lastPage);
-
+// Liste s
+const { allDepartements, fetchAllDepartements, loading: deptLoading } = useListDepartements();
+fetchAllDepartements();
 const showModal = ref(false);
 const isEditing = ref(false);
 const selectedModuleId = ref<number | null>(null);

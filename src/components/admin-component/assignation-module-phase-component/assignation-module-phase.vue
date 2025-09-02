@@ -6,9 +6,9 @@
       <!-- Sélection du module -->
       <div class="card select-card">
         <label for="moduleSelect" class="label">Choisir un module</label>
-        <select id="moduleSelect" v-model="selectedModuleId" class="select">
+        <select id="moduleSelect" v-model="selectedModuleId" class="select" @change="loadPhases">
           <option disabled value="">— Sélectionner —</option>
-          <option v-for="m in modules" :key="m.id" :value="m.id">
+          <option v-for="m in allModules" :key="m.id" :value="m.id">
             {{ m.name }}
           </option>
         </select>
@@ -25,16 +25,6 @@
                 <span class="count-badge">{{ assignedList.length }}</span>
               </div>
             </header>
-
-            <div class="phase-box__search">
-              <i class="fas fa-search"></i>
-              <input
-                v-model="qAssigned"
-                class="input"
-                placeholder="Rechercher…"
-                :disabled="!selectedModuleId"
-              />
-            </div>
 
             <ul class="phase-list">
               <li
@@ -69,17 +59,6 @@
                 <span class="count-badge">{{ availableList.length }}</span>
               </div>
             </header>
-
-            <div class="phase-box__search">
-              <i class="fas fa-search"></i>
-              <input
-                v-model="qAvailable"
-                class="input"
-                placeholder="Rechercher…"
-                :disabled="!selectedModuleId"
-              />
-            </div>
-
             <ul class="phase-list">
               <li
                 v-for="p in filteredAvailable"
@@ -105,62 +84,26 @@
             </ul>
           </section>
         </div>
-
-        <!-- Actions globales -->
-        <div class="form-actions">
-          <button class="btn primary big" @click="validate" :disabled="!selectedModuleId">
-            <i class="fas fa-check"></i>
-            Valider
-          </button>
-        </div>
       </div>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { moduleService } from '@/domain/services/moduleService';
+import { useListModules } from '@/composables/useListModules';
+import { showToast } from '@/shared/utils/toast';
 
-type Module = { id: number; name: string };
 type Phase = { id: number; name: string };
 
-const modules = ref<Module[]>([
-  { id: 1, name: 'Module Paiement' },
-  { id: 2, name: 'Module Abonnés' },
-  { id: 3, name: 'Module Réclamations' },
-]);
-
-const allPhases = ref<Phase[]>([
-  { id: 101, name: 'Analyse' },
-  { id: 102, name: 'Conception' },
-  { id: 103, name: 'Développement' },
-  { id: 104, name: 'Tests' },
-  { id: 105, name: 'Recette' },
-  { id: 106, name: 'Déploiement' },
-  { id: 107, name: 'Maintenance' },
-]);
-
-const assignments = ref<Record<number, Set<number>>>({
-  1: new Set([101, 103, 104]),
-  2: new Set([101]),
-  3: new Set([]),
-});
+const { allModules, fetchAllModules } = useListModules();
 
 const selectedModuleId = ref<number | ''>('');
+const assignedList = ref<Phase[]>([]);
+const availableList = ref<Phase[]>([]);
 const qAssigned = ref('');
 const qAvailable = ref('');
-
-const assignedList = computed<Phase[]>(() => {
-  if (!selectedModuleId.value) return [];
-  const set = assignments.value[selectedModuleId.value] ?? new Set<number>();
-  return allPhases.value.filter(p => set.has(p.id));
-});
-
-const availableList = computed<Phase[]>(() => {
-  if (!selectedModuleId.value) return [];
-  const set = assignments.value[selectedModuleId.value] ?? new Set<number>();
-  return allPhases.value.filter(p => !set.has(p.id));
-});
 
 const filteredAssigned = computed(() => {
   const q = qAssigned.value.trim().toLowerCase();
@@ -172,30 +115,44 @@ const filteredAvailable = computed(() => {
   return q ? availableList.value.filter(p => p.name.toLowerCase().includes(q)) : availableList.value;
 });
 
-const addPhase = (phaseId: number) => {
+const loadPhases = async () => {
   if (!selectedModuleId.value) return;
-  const set = assignments.value[selectedModuleId.value] ?? new Set<number>();
-  set.add(phaseId);
-  assignments.value[selectedModuleId.value] = set;
+  try {
+    const response = await moduleService.getPhases(selectedModuleId.value);
+    assignedList.value = response.assigned?.phases ?? [];
+    availableList.value = response.unassigned?.phases ?? [];
+  } catch (err: any) {
+    showToast(err?.message || 'Erreur lors du chargement des phases', { type: 'error' });
+  }
 };
 
-const removePhase = (phaseId: number) => {
+const addPhase = async (phaseId: number) => {
   if (!selectedModuleId.value) return;
-  const set = assignments.value[selectedModuleId.value] ?? new Set<number>();
-  set.delete(phaseId);
-  assignments.value[selectedModuleId.value] = set;
+  try {
+    await moduleService.attachPhase(selectedModuleId.value, phaseId);
+    await loadPhases();
+    showToast('Phase ajoutée avec succès', { type: 'success' });
+  } catch (err: any) {
+    showToast(err?.message || 'Erreur lors de l’ajout de la phase', { type: 'error' });
+  }
 };
 
-const validate = () => {
+const removePhase = async (phaseId: number) => {
   if (!selectedModuleId.value) return;
-  const payload = {
-    moduleId: selectedModuleId.value,
-    phaseIds: Array.from(assignments.value[selectedModuleId.value] ?? []),
-  };
-  console.log('VALIDATE payload =>', payload);
-  alert('Phases enregistrées pour le module sélectionné.');
+  try {
+    await moduleService.detachPhase(selectedModuleId.value, phaseId);
+    await loadPhases();
+    showToast('Phase retirée avec succès', { type: 'success' });
+  } catch (err: any) {
+    showToast(err?.message || 'Erreur lors du retrait de la phase', { type: 'error' });
+  }
 };
+
+onMounted(() => {
+  fetchAllModules();
+});
 </script>
+
 
 <style scoped>
 .main-wrapper-man { flex: 1; padding: 10px; background: #f9fafb; }

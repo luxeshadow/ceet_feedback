@@ -1,8 +1,8 @@
 import { TypeFeedback, CreateTypeFeedbackResponse } from '@/domain/models/TypeFeedback';
-import { phaseService } from '@/domain/services/phaseService';
-import { validatePhase } from '@/domain/validations/phaseValidation';
+import { typeFeedbackService } from '@/domain/services/typeFeedbackService';
+import { validateTypeFeedback } from '@/domain/validations/typeFeedbackValidation';
 
-export async function createTypeFeedback(phaseData: Partial<TypeFeedback>): Promise<CreateTypeFeedbackResponse> {
-  validatePhase(phaseData);
-  return await phaseService.createPhase(phaseData);
+export async function createTypeFeedback(typeFeedbackData: Partial<TypeFeedback>): Promise<CreateTypeFeedbackResponse> {
+  validateTypeFeedback(typeFeedbackData);
+  return await typeFeedbackService.createTypeFeedback(typeFeedbackData);
 }

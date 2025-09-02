@@ -27,54 +27,49 @@
                 <input type="text" id="lastname" name="lastname" placeholder="Votre nom" />
               </div>
             </div>
+            
             <div>
               <label for="email">Email (optionnel)</label>
               <input type="email" id="email" name="email" placeholder="email@exemple.com" />
             </div>
           </div>
 
-          <!-- Département + Type de feedback -->
-          <div class="grid-2-cols">
-            <div>
-              <label>Départements/ Services/ Fonctions concerné*</label>
-              <div class="custom-select" tabindex="0" @click="toggleDepartment">
-                <div class="select-trigger" :class="{ open: departmentOpen }">
-                  <span class="select-placeholder">
-                    {{ selectedDepartment ? selectedDepartment.name : "Sélectionnez un département, fonction ou service*" }}
-                  </span>
-                  <i class="fas fa-chevron-down" style="font-size: 0.75rem; color: #9ca3af"></i>
-                </div>
-                <ul class="select-options" :class="{ open: departmentOpen }">
-                  <li
-                    v-for="dept in allDepartements"
-                    :key="dept.id"
-                    @click.stop="selectDepartment(dept)"
-                  >
-                    {{ dept.description || dept.name }}
-                  </li>
-                </ul>
+          <!-- Département -->
+          <div v-if="!userStore.user">
+            <label>Départements/ Services/ Fonctions concerné*</label>
+            <div class="custom-select" tabindex="0" @click="toggleDepartment">
+              <div class="select-trigger" :class="{ open: departmentOpen }">
+                <span class="select-placeholder">
+                  {{ selectedDepartment ? selectedDepartment.name : "Sélectionnez un département, fonction ou service*" }}
+                </span>
+                <i class="fas fa-chevron-down" style="font-size: 0.75rem; color: #9ca3af"></i>
               </div>
+              <ul class="select-options" :class="{ open: departmentOpen }">
+                <li v-for="dept in allDepartements" :key="dept.id" @click.stop="selectDepartment(dept)">
+                  {{ dept.name }}
+                </li>
+              </ul>
             </div>
+          </div>
+          <div v-else>
+            <input type="hidden" name="departement_id" :value="userStore.user?.departement_id" />
+          </div>
 
-            <div>
-              <label>Type de feedback*</label>
-              <div class="custom-select" tabindex="0" @click="toggleTypeFeedback">
-                <div class="select-trigger" :class="{ open: typeFeedbackOpen }">
-                  <span class="select-placeholder">
-                    {{ selectedTypeFeedback ? selectedTypeFeedback.name : "Sélectionnez un type*" }}
-                  </span>
-                  <i class="fas fa-chevron-down" style="font-size: 0.75rem; color: #9ca3af"></i>
-                </div>
-                <ul class="select-options" :class="{ open: typeFeedbackOpen }">
-                  <li
-                    v-for="tf in allTypeFeedbacks"
-                    :key="tf.id"
-                    @click.stop="selectTypeFeedback(tf)"
-                  >
-                    {{ tf.description || tf.name }}
-                  </li>
-                </ul>
+          <!-- Type de feedback -->
+          <div>
+            <label>Type de feedback*</label>
+            <div class="custom-select" tabindex="0" @click="toggleTypeFeedback">
+              <div class="select-trigger" :class="{ open: typeFeedbackOpen }">
+                <span class="select-placeholder">
+                  {{ selectedTypeFeedback ? selectedTypeFeedback.name : "Sélectionnez un type*" }}
+                </span>
+                <i class="fas fa-chevron-down" style="font-size: 0.75rem; color: #9ca3af"></i>
               </div>
+              <ul class="select-options" :class="{ open: typeFeedbackOpen }">
+                <li v-for="tf in allTypeFeedbacks" :key="tf.id" @click.stop="selectTypeFeedback(tf)">
+                  {{ tf.name }}
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -148,8 +143,8 @@
                 </svg>
                 <div>
                   <label class="file-upload-label" for="file-upload">
-                    <span>{{ selectedFile ? selectedFile.name : "Aucun fichier sélectionné" }}</span>
-                    <input id="file-upload" name="file-upload" type="file" @change="onFileChange" />
+                    <span>{{ selectedFiles.length ? selectedFiles.map(f => f.name).join(', ') : "Aucun fichier sélectionné" }}</span>
+                    <input id="file-upload" multiple name="file-upload" type="file" @change="onFileChange" />
                   </label>
                 </div>
                 <p class="file-upload-info">PNG, JPG, PDF jusqu'à 10MB</p>
@@ -159,8 +154,7 @@
 
           <!-- Boutons -->
           <div class="form-buttons">
-           <button type="button" class="btn btn-cancel" @click="resetForm">Annuler</button>
-
+            <button type="button" class="btn btn-cancel" @click="resetForm">Annuler</button>
             <button type="submit" class="btn btn-submit">
               <i v-if="loading" class="fas fa-spinner fa-spin mr-2"></i>
               <i class="fi fi-rr-paper-plane"></i> Envoyer
@@ -181,6 +175,7 @@ import { useCreateFeedback } from "@/composables/useCreateFeedback";
 import { useListModules } from "@/composables/useListModules";
 import { useListPhases } from "@/composables/useListPhases";
 import { useUserStore } from "@/presentation/stores/userStore";
+import { Module } from "@/domain/models/Module";
 
 // --- Store utilisateur ---
 const userStore = useUserStore();
@@ -191,29 +186,41 @@ const { allDepartements, fetchAllDepartements } = useListDepartements();
 const selectedDepartment = ref<{ id: number; name: string } | null>(null);
 const departmentOpen = ref(false);
 const toggleDepartment = () => (departmentOpen.value = !departmentOpen.value);
-const selectDepartment = (dept: { id: number; name: string }) => {
-  selectedDepartment.value = dept;
-  departmentOpen.value = false;
-};
 
 // --- Type Feedback ---
 const { allTypeFeedbacks, fetchAllTypeFeedbacks } = useListTypeFeedbacks();
 const selectedTypeFeedback = ref<{ id: number; name: string } | null>(null);
 const typeFeedbackOpen = ref(false);
 const toggleTypeFeedback = () => (typeFeedbackOpen.value = !typeFeedbackOpen.value);
+
+// --- Modules ---
+const { fetchModulesByDepartement } = useListModules();
+const modules = ref<Module[]>([]);
+const selectedModule = ref<{ id: number; name: string } | null>(null);
+const moduleOpen = ref(false);
+const toggleModule = () => (moduleOpen.value = !moduleOpen.value);
+
+const loadModules = async (departementId?: number) => {
+  if (!departementId) return;
+  const response = await fetchModulesByDepartement(departementId);
+  if (!response) return;
+  modules.value = response.data;
+};
+
+// --- Sélection département ---
+const selectDepartment = async (dept: { id: number; name: string }) => {
+  selectedDepartment.value = dept;
+  departmentOpen.value = false;
+  await loadModules(dept.id);
+};
+
+// --- Sélection type feedback ---
 const selectTypeFeedback = (tf: { id: number; name: string }) => {
   selectedTypeFeedback.value = tf;
   typeFeedbackOpen.value = false;
 };
 
-// --- Modules ---
-const { allModules, fetchAllModules } = useListModules();
-const modules = allModules;
-const selectedModule = ref<{ id: number; name: string } | null>(null);
-const moduleOpen = ref(false);
-const toggleModule = () => (moduleOpen.value = !moduleOpen.value);
-
-// --- Phases ---
+// --- Sélection module et chargement phases ---
 const { modulePhases, fetchModulePhases } = useListPhases();
 const selectedPhases = ref<number[]>([]);
 
@@ -224,53 +231,64 @@ const selectModule = async (mod: { id: number; name: string }) => {
   await fetchModulePhases(mod.id);
 };
 
-// --- Fichier ---
-const selectedFile = ref<File | null>(null);
+// --- Fichiers ---
+const selectedFiles = ref<File[]>([]);
 const onFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
-  selectedFile.value = target.files && target.files.length ? target.files[0] : null;
+  selectedFiles.value = target.files ? Array.from(target.files) : [];
 };
 
 // --- Feedback ---
 const { submitFeedback, loading } = useCreateFeedback();
 const message = ref<string>("");
 
-// --- Fonction pour reset complet ---
+// --- Reset complet ---
 const resetForm = () => {
   message.value = "";
   selectedDepartment.value = null;
   selectedTypeFeedback.value = null;
   selectedModule.value = null;
   selectedPhases.value = [];
-  selectedFile.value = null;
-
-  // fermer tous les selects
+  selectedFiles.value = [];
   departmentOpen.value = false;
   typeFeedbackOpen.value = false;
   moduleOpen.value = false;
 };
 
-// --- Feedback ---
+// --- Submit feedback ---
 const onSubmit = async (e: Event) => {
   e.preventDefault();
-  const response = await submitFeedback({
-    description: message.value,
-    selectedPhases: selectedPhases.value,
-    selectedDepartment: selectedDepartment.value,
-    selectedTypeFeedback: selectedTypeFeedback.value,
-    selectedModule: selectedModule.value,
-    file: selectedFile.value,
-  });
 
-  if (response) {
-    resetForm(); // reset après succès
+  const departmentId = userStore.user
+    ? userStore.user.departement_id
+    : selectedDepartment.value?.id;
+
+  try {
+    const response = await submitFeedback({
+      description: message.value,
+      selectedPhases: selectedPhases.value,
+      selectedDepartment: userStore.user ? null : selectedDepartment.value,
+      selectedTypeFeedback: selectedTypeFeedback.value,
+      selectedModule: selectedModule.value,
+      files: selectedFiles.value, // Utiliser selectedFiles au lieu de selectedFile
+      departmentId,
+    });
+
+    if (response) {
+      resetForm();
+    }
+  } catch (error) {
+    console.error('Erreur lors de la soumission du feedback:', error);
   }
 };
 
 // --- Chargement initial ---
-onMounted(() => {
-  fetchAllDepartements();
-  fetchAllTypeFeedbacks();
-  fetchAllModules();
+onMounted(async () => {
+  await fetchAllDepartements();
+  await fetchAllTypeFeedbacks();
+
+  if (userStore.user?.departement_id) {
+    await loadModules(userStore.user.departement_id);
+  }
 });
 </script>

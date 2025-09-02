@@ -4,7 +4,7 @@ import { feedbackService } from '@/domain/services/feedbackService';
 import { Feedback } from '@/domain/models/Feedback';
 import { showToast } from '@/shared/utils/toast';
 
-export function useListFeedback() {
+export function useListFeedbacks() {
   const feedbacks = ref<Feedback[]>([]);
   const currentPage = ref(1);
   const lastPage = ref(1);

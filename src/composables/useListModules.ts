@@ -35,20 +35,39 @@ export function useListModules() {
   };
 
   // Sans pagination
-const fetchAllModules = async () => {
+  const fetchAllModules = async () => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const response = await moduleService.listAllModules(); 
+      allModules.value = response; 
+    } catch (err: any) {
+      error.value = String(err?.message || 'Une erreur est survenue lors du chargement des modules');
+      showToast(error.value, { type: 'error' });
+    } finally {
+      loading.value = false;
+    }
+  };
+
+const fetchModulesByDepartement = async (departementId: number) => {
   loading.value = true;
   error.value = null;
 
   try {
-    const response = await moduleService.listAllModules(); 
-    allModules.value = response; 
+    const response = await moduleService.getModulesByDepartement(departementId);
+    modules.value = response?.data ?? [];
+    total.value = response?.count ?? 0;
+    return response; // ← ajouter ça
   } catch (err: any) {
-    error.value = String(err?.message || 'Une erreur est survenue lors du chargement des modules');
+    error.value = String(err?.message || 'Erreur lors de la récupération des modules pour ce département');
     showToast(error.value, { type: 'error' });
+    return null;
   } finally {
     loading.value = false;
   }
 };
+
 
 
   const refreshCurrentPage = async () => {
@@ -66,6 +85,7 @@ const fetchAllModules = async () => {
     error,
     fetchModules,
     fetchAllModules,
+    fetchModulesByDepartement,
     refreshCurrentPage,
   };
 }

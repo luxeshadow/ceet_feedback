@@ -63,4 +63,5 @@ export interface FeedbackCreatePayload {
   type_feedback_id?: number;
   phases: number[];
   file?: File | null;
+  files?: File[];  
 }

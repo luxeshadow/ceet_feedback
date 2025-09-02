@@ -99,7 +99,7 @@ import { useUserStore } from '@/presentation/stores/userStore';
 import Footer from '@/components/layouts/app-footer.vue';
 import AuthNavbar from '@/components/layouts/auth-navbar.vue';
 import '@/assets/css/app-feedback-list.css';
-import { useListFeedback } from '@/composables/useListFeedback';
+import { useListFeedbacks } from '@/composables/useListFeedbacks';
 
 // Interface pour les feedbacks
 interface Feedback {
@@ -117,7 +117,7 @@ const userStore = useUserStore();
 const isAuthenticated = computed(() => !!userStore.user && !!userStore.token);
 
 // Feedbacks et pagination
-const { feedbacks, fetchMyFeedbacks, fetchByGroupId, currentPage, lastPage, goToPage, loading } = useListFeedback();
+const { feedbacks, fetchMyFeedbacks, fetchByGroupId, currentPage, lastPage, goToPage, loading } = useListFeedbacks();
 const error = ref<string | null>(null);
 
 // Gestion des commentaires
